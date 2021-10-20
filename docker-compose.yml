@@ -1,0 +1,150 @@
+version: '2'
+
+services:
+        management-ui:
+            privileged: true
+            extends:
+                file: management_ui/app.yml
+                service: app
+            networks:
+                        internal:
+                                aliases:
+                                        - management-ui.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-management-ui
+            restart: unless-stopped
+#        manual-input:
+#            privileged: true
+#            extends:
+#                file: user_input_dc/app.yml
+#                service: app
+#            networks:
+#                        internal:
+#                                aliases:
+#                                        - manual-input.docker.local
+#            logging:
+#                    driver: syslog
+#                    options:
+#                            tag: docker-manual-input
+#            restart: unless-stopped
+        operator-ui:
+            privileged: true
+            extends:
+                file: operator_ui/app.yml
+                service: app    
+            networks:
+                internal:
+                    aliases:
+                        - operator-ui.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-operator-ui
+            restart: unless-stopped
+        job-db:
+            privileged: true
+            extends:
+                file: job_locations_sds/app.yml
+                service: app
+            networks:
+                internal:
+                    aliases:
+                        - job-db.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-job-db
+            restart: unless-stopped
+
+        mosquitto:
+            extends:
+                file: mosquitto/app.yml
+                service: app
+            ports:
+                - "8883:8883"
+            networks:
+                internal:
+                    aliases:
+                        - mqtt.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-mosquitto
+            restart: unless-stopped
+
+        barcode-1:
+            extends:
+                file: barcode_dc/app.yml
+                service: app
+            networks:
+                internal:
+                    aliases:
+                        - bs_1.docker.local
+            logging:
+                    driver: syslog
+                    options:
+                            tag: docker-barcode-1
+            restart: unless-stopped
+            depends_on:
+                - "mosquitto"
+            environment:
+                - app_config=config/scanner_config_1.json
+
+#        barcode-2:
+#            extends:
+#                file: barcode_dc/app.yml
+#                service: app
+#            networks:
+#                internal:
+#                    aliases:
+#                        - bs_2.docker.local
+#            logging:
+#                    driver: syslog
+#                    options:
+#                            tag: docker-barcode-2
+#            restart: unless-stopped
+#            depends_on:
+#                - "mosquitto"
+#            environment:
+#                - app_config=config/scanner_config_2.json
+
+#         barcode-3:
+#            extends:
+#                file: barcode_dc/app.yml
+#                service: app
+#            networks:
+#                internal:
+#                    aliases:
+#                        - bs_3.docker.local
+#            logging:
+#                    driver: syslog
+#                    options:
+#                            tag: docker-barcode-3
+#            restart: unless-stopped
+#            depends_on:
+#                - "mosquitto"
+#            environment:
+#                - app_config=config/scanner_config_3.json
+
+#       barcode-4:
+#            extends:
+#                file: barcode_dc/app.yml
+#                service: app
+#            networks:
+#                internal:
+#                    aliases:
+#                        - bs_4.docker.local
+#            logging:
+#                    driver: syslog
+#                    options:
+#                            tag: docker-barcode-4
+#            restart: unless-stopped
+#            depends_on:
+#                - "mosquitto"
+#            environment:
+#                - app_config=config/scanner_config_4.json
+
+networks:
+        internal:

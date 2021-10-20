@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+        app:
+                privileged: true
+                image: digitalshoestring/barcode_dc:v1.1.4
+                command: python3 Main.py
+                devices:
+                        - /dev/input:/dev/input:ro
+                          #- /run/udev:/run/udev:ro
+                volumes:
+                        - ./config:/app/config
+                        - /etc/localtime:/etc/localtime:ro
+                        - /run/udev:/run/udev:ro
+                environment:
+                    - app_config=config/in_scanner_config.json
