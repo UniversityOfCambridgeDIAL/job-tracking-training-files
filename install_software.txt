@@ -44,3 +44,33 @@ Job Tracking Dashboard -    http://localhost/
 Database Admin -            http://localhost:8001/admin/
 Operator Dashboard -        http://localhost:8080/dashboard/
 Manual Input -              http://localhost:8003/input/
+
+# Setting up logging:
+sudo nano /etc/rsyslog.d/40-docker.conf
+
+# Paste in
+##########
+$template CUSTOM_LOGS,"/var/log/containers/%programname%.log"
+
+if $programname startswith  'docker-' then ?CUSTOM_LOGS
+& ~
+##########
+# restart rsyslog
+sudo systemctl restart rsyslog
+
+sudo nano /etc/logrotate.d/docker
+# Paste in
+##########
+/var/log/containers/*.log {
+   daily
+   rotate 20
+   missingok
+   compress
+}
+##########
+
+# log files are found at:
+/var/log/containers/
+
+
+
