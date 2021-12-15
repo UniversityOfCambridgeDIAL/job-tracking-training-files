@@ -46,6 +46,7 @@ Operator Dashboard -        http://localhost:8080/dashboard/
 Manual Input -              http://localhost:8003/input/
 
 # Setting up logging:
+sudo install -d -m 775 -o root -g adm /var/log/containers
 sudo nano /etc/rsyslog.d/40-docker.conf
 
 # Paste in
