@@ -21,7 +21,7 @@ sudo apt-get install rsyslog
 lsusb
 
 # Setup Job Database
-docker-compose run job-db bash
+docker compose run job-db bash
 ## In the container command line
 python manage.py makemigrations
 python manage.py migrate
