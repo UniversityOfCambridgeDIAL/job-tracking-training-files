@@ -3,7 +3,7 @@ version: '2'
 services:
         app:
                 privileged: true
-                image: digitalshoestring/barcode_dc:v1.1.4
+                image: digitalshoestring/barcode_dc:v1.1.6
                 command: python3 Main.py
                 devices:
                         - /dev/input:/dev/input:ro
