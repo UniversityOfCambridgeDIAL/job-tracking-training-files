@@ -2,7 +2,7 @@ version: '2'
 
 services:
         app:
-            image: digitalshoestring/operator_ui:v1.1.6
+            image: digitalshoestring/operator_ui:v1.1.7
             working_dir: /app
             command: sh -c "python manage.py collectstatic --noinput &&
                             python manage.py migrate &&
