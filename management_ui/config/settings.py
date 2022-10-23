@@ -19,5 +19,5 @@ SORT_ORDER_DESCENDING = True
 SHOW_DURATION = True
 
 ID_AS_LINK = False
-LINK_TEMPLATE = '${entry.id}'
+LINK_TEMPLATE = 'function get_link_href(id,location){return ""}'
 
